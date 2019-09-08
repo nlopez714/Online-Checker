@@ -1,0 +1,35 @@
+#!/bin/bash
+
+#Nicholas Lopez BFOR 203
+#  Script pings an address, checks packet loss to see if the device is online, sends
+#  an email to the administrator if it is offline, and records status to a log file.
+#  Script is designed to be used in conjunction with crontab to automate being ran.
+
+output=$(ping -c 1 google.com | grep "0% packet loss" | cut -d"%" -f1 | cut -d" " -f6)
+if [ $output -eq 0 ]
+then
+   echo "Google.com is online. $(date)"
+else
+   echo "Google.com is OFFLINE! $(date)"
+   echo "Google.com is OFFLINE! $(date)" | mail -s "Warning! Device Offline!" nslopez@albany.edu
+fi
+
+output=$(ping -c 1 facebook.com | grep "0% packet loss" | cut -d"%" -f1 | cut -d" " -f6)
+if [ $output -eq 0 ]
+then
+   echo "Facebook.com is online. $(date)"
+else
+   echo "Facebook is OFFLINE! $(date)"
+   echo "Facebook.com is OFFLINE! $(date)" | mail -s "Warning! Device Offline!" nslopez@albany.edu
+fi
+
+output=$(ping -c 1 10.1.1.1 | grep "0% packet loss" | cut -d"%" -f1 | cut -d" " -f6)
+if [ $output -eq 0 ]
+then
+   echo "10.1.1.1 is online. $(date)"
+else
+   echo "10.1.1.1 is OFFLINE! $(date)"
+   echo "10.1.1.1 is OFFLINE! $(date)" | mail -s "Warning! Device Offline!" nslopez@albany.edu
+fi
+
+
